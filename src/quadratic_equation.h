@@ -4,11 +4,11 @@
 #define EPSILON 1e-6
 
 typedef struct {
-  int num_roots;
+  int num_roots;  //  -1  Infinite roots
   double root1;
   double root2;
-} QuadraticResult;
+} EquationResult;
 
-QuadraticResult solve_equation(double a, double b, double c);
+EquationResult solve_equation(double a, double b, double c);
 
 #endif  // SRC_QUADRATIC_EQUATION_H_

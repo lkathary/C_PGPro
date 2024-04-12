@@ -1,12 +1,12 @@
-.PHONY: test quadratic_equation.a
+.PHONY: test tests quadratic_equation.a
 
 CC=gcc
+CXX=g++
 CAR=ar
 CRANLIB=ranlib
 
-FLAGS=-Wall -Werror -Wextra -std=c11
-# FLAGS=-Wall -Wextra -std=c11
-
+FLAGS_C=-Wall -Werror -Wextra -std=c11
+FLAGS_CPP=-Wall -Werror -Wextra --std=c++17
 
 OS = $(shell uname)
 
@@ -16,43 +16,51 @@ else
 	LINUX_LIBS=
 endif
 
+GTEST=-lgtest_main -lgtest -lpthread
+LCHECK=`pkg-config --cflags --libs check`
+
 
 TARGETDIR=./
 
 FILE_TEST=test_lib
 FILE_LIB=quadratic_equation
 
-all: clean test
+all: clean check
 
-quadratic_equation.a: $(FILE_LIB).c
-	$(CC) -c $(FLAGS) $(TARGETDIR)$(FILE_LIB).c
+quadratic_equation.a:
+	$(CC) -c $(FLAGS_C) $(FILE_LIB).c
 	$(CAR) rc $(FILE_LIB).a $(FILE_LIB).o
 	$(CRANLIB) $(FILE_LIB).a
 
 test: quadratic_equation.a
-	$(CC) -c $(FLAGS) $(FILE_TEST).c
-	$(CC) -o $(TARGETDIR)$(FILE_TEST) $(FLAGS) $(FILE_TEST).o -L. $(FILE_LIB).a $(LINUX_LIBS)
+	$(CC) -c $(FLAGS_C) $(FILE_TEST).c
+	$(CC) -o $(FILE_TEST) $(FLAGS) $(FILE_TEST).o -L. $(FILE_LIB).a $(LCHECK) $(LINUX_LIBS)
 	-$(TARGETDIR)$(FILE_TEST)
 
-cpp_check:
+check: quadratic_equation.a
+	$(CXX) -c $(FLAGS_CPP) $(FILE_TEST).cpp $(GTEST)
+	$(CXX) -o $(FILE_TEST) $(FLAGS) $(FILE_TEST).o $(FILE_LIB).a -L $(GTEST)
+	-$(TARGETDIR)$(FILE_TEST)
+
+
+cppcheck:
 	cppcheck --enable=all --check-config --suppress=missingIncludeSystem --std=c11 *.c *.h
+	cppcheck --enable=all --check-config --suppress=missingIncludeSystem --std=c++17 --language=c++ *.cpp *.h
 
-
-clang_check:
+clang:
 	-rm -rf .clang-format
 	-ln -s ../linters/.clang-format
-	clang-format -n *.c *.h
-
+	clang-format -n *.c *.h *.cpp
 
 clang_fix:
 	-rm -rf .clang-format
 	-ln -s ../linters/.clang-format
-	clang-format -i *.c *.h
+	clang-format -i *.c *.h *.cpp
 
 
-leaks: test
+leaks: check
 ifeq ($(OS), Linux)
-# 	Clear the log
+
 	echo "Leaks check" > __leaks_check.out
 
 	-CK_FORK=no valgrind --leak-check=full $(TARGETDIR)$(FILE_TEST) 2>> __leaks_check.out
@@ -66,15 +74,6 @@ endif
 clean:
 	rm -rf  *.o *.a *.out
 	rm -rf $(TARGETDIR)$(FILE_TEST)
-
-	rm -rf CPPLINT.cfg cpplint.py
-	rm -rf *.exe
-
-# Frequent typos/synonyms
-claen:	clean
-clear:	clean
-claer:	clean
-
 
 rebuild:
 	make clean
