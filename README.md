@@ -6,10 +6,12 @@
 
 1.	Решение оформлено в виде библиотеки с заголовочном файлом:
     `quadratic_equation.h`
+  	
   	Cигнатура функции для решения квадратного уравнения:
   	`EquationResult solve_equation(double a, double b, double c);`
   	
   	Решение уравнения возвращается в виде структуры:
+  	
   	```
     typedef struct {
       int num_roots;
@@ -17,6 +19,7 @@
       double root2;
     } EquationResult;
    ```
+
    num_roots – количество корней квадратного управления;
 
    root1, root2 – действительные корни квадратного уравнения;
