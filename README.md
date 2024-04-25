@@ -12,13 +12,14 @@
   	
   	Решение уравнения возвращается в виде структуры:
   	
-  	```
+```
     typedef struct {
       int num_roots;
       double root1;
       double root2;
     } EquationResult;
-   ```
+```
+
 
    num_roots – количество корней квадратного управления;
 
