@@ -24,6 +24,7 @@ TARGETDIR=./
 
 FILE_TEST=test_lib
 FILE_LIB=quadratic_equation
+INSTALL_DIR=../quadratic_equation
 
 all: clean check
 
@@ -70,10 +71,20 @@ else
 	CK_FORK=no leaks -atExit -- $(TARGETDIR)$(FILE_TEST)
 endif
 
+arhive:
+	-rm	$(INSTALL_DIR).tar
+	rm -rf $(INSTALL_DIR)
+	mkdir $(INSTALL_DIR)
+	cp -R ../src $(INSTALL_DIR)
+	cp -R ../linters $(INSTALL_DIR)
+	cp ../*.* ../.gitignore $(INSTALL_DIR)
+	tar -cvf $(INSTALL_DIR).tar $(INSTALL_DIR)
+	rm -rf $(INSTALL_DIR)
 
 clean:
 	rm -rf  *.o *.a *.out
 	rm -rf $(TARGETDIR)$(FILE_TEST)
+	-rm -rf .clang-format
 
 rebuild:
 	make clean

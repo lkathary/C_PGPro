@@ -131,6 +131,13 @@ TEST(quadratic_equation, test_22) {
   ASSERT_EQ(result.num_roots, 0);
 }
 
+TEST(quadratic_equation, test_23) {
+  EquationResult result = solve_equation(1e-12, -2e-6, 1);
+  ASSERT_EQ(result.num_roots, 1);
+  ASSERT_NEAR(result.root1, 1e6, EPSILON);
+  ASSERT_NEAR(result.root2, 1e6, EPSILON);
+}
+
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

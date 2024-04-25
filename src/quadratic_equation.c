@@ -13,7 +13,7 @@ EquationResult solve_equation(double a, double b, double c) {
     return result;
   }
 
-  if (fabs(a) < EPSILON) {
+  if (fabs(a) < EPSILON * EPSILON) {  //  Since the coefficient of x*x
     if (fabs(b) < EPSILON) {
       if (fabs(c) < EPSILON) {
         // Equation 0 = 0, infinite roots

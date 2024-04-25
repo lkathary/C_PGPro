@@ -151,6 +151,14 @@ START_TEST(test_22) {
 }
 END_TEST
 
+START_TEST(test_23) {
+  EquationResult result = solve_equation(1e-12, -2e-6, 1);
+  ck_assert_int_eq(result.num_roots, 1);
+  ck_assert_double_eq_tol(result.root1, 1e6, EPSILON);
+  ck_assert_double_eq_tol(result.root2, 1e6, EPSILON);
+}
+END_TEST
+
 int main() {
   Suite *suite = suite_create("quadratic_equation");
   SRunner *sr = srunner_create(suite);
@@ -178,6 +186,7 @@ int main() {
   tcase_add_test(tc, test_20);
   tcase_add_test(tc, test_21);
   tcase_add_test(tc, test_22);
+  tcase_add_test(tc, test_23);
   suite_add_tcase(suite, tc);
 
   srunner_run_all(sr, CK_VERBOSE);
