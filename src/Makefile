@@ -1,4 +1,4 @@
-.PHONY: test tests quadratic_equation.a
+.PHONY: test check quadratic_equation.a
 
 CC=gcc
 CXX=g++

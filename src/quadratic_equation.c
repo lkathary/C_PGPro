@@ -20,7 +20,7 @@ EquationResult solve_equation(double a, double b, double c) {
         result.num_roots = -1;
         result.root1 = result.root2 = 0;
       } else {
-        // Equation c = 0 && c != 0, no roots
+        // Equation c = 0, at the same time c != 0, no roots
         result.num_roots = 0;
         result.root1 = result.root2 = 0;
       }
