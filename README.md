@@ -7,6 +7,7 @@
    `quadratic_equation.h`
   	Cигнатура функции для решения квадратного уравнения:
   	`EquationResult solve_equation(double a, double b, double c);`
+  	
   	Решение уравнения возвращается в виде структуры:
   	```
     typedef struct {
