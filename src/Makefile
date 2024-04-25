@@ -71,7 +71,7 @@ else
 	CK_FORK=no leaks -atExit -- $(TARGETDIR)$(FILE_TEST)
 endif
 
-arhive:
+arhive: clean
 	-rm	$(INSTALL_DIR).tar
 	rm -rf $(INSTALL_DIR)
 	mkdir $(INSTALL_DIR)
