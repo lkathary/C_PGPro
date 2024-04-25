@@ -4,21 +4,17 @@
 
 ---
 1.	Решение оформлено в виде библиотеки с заголовочном файлом:
-   
-`quadratic_equation.h`
-
-Cигнатура функции для решения квадратного уравнения:
-
-`EquationResult solve_equation(double a, double b, double c);`
-
-Решение уравнения возвращается в виде структуры:
-```
-typedef struct {
-  int num_roots;
-  double root1;
-  double root2;
-} EquationResult;
-```
+   `quadratic_equation.h`
+  	Cигнатура функции для решения квадратного уравнения:
+  	`EquationResult solve_equation(double a, double b, double c);`
+  	Решение уравнения возвращается в виде структуры:
+  	```
+    typedef struct {
+      int num_roots;
+      double root1;
+      double root2;
+    } EquationResult;
+   ```
 
 0. В задании, по-видимому, была допущена техническая опечатка, что в том числе подтверждается примером:
    
