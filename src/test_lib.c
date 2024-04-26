@@ -12,12 +12,16 @@ END_TEST
 START_TEST(test_2) {
   EquationResult result = solve_equation(0.0, 0.0, 2.0);
   ck_assert_int_eq(result.num_roots, 0);
+  ck_assert_double_nan(result.root1);
+  ck_assert_double_nan(result.root2);
 }
 END_TEST
 
 START_TEST(test_3) {
   EquationResult result = solve_equation(0.0, 0.0, -3.0);
   ck_assert_int_eq(result.num_roots, 0);
+  ck_assert_double_nan(result.root1);
+  ck_assert_double_nan(result.root2);
 }
 END_TEST
 
@@ -56,6 +60,8 @@ END_TEST
 START_TEST(test_8) {
   EquationResult result = solve_equation(2.0, 0.0, 8.0);
   ck_assert_int_eq(result.num_roots, 0);
+  ck_assert_double_nan(result.root1);
+  ck_assert_double_nan(result.root2);
 }
 END_TEST
 
@@ -94,60 +100,80 @@ END_TEST
 START_TEST(test_13) {
   EquationResult result = solve_equation(-2.0, 4.0, -5.0);
   ck_assert_int_eq(result.num_roots, 0);
+  ck_assert_double_nan(result.root1);
+  ck_assert_double_nan(result.root2);
 }
 END_TEST
 
 START_TEST(test_14) {
   EquationResult result = solve_equation(NAN, -3.0, 2.0);
   ck_assert_int_eq(result.num_roots, 0);
+  ck_assert_double_nan(result.root1);
+  ck_assert_double_nan(result.root2);
 }
 END_TEST
 
 START_TEST(test_15) {
   EquationResult result = solve_equation(1.0, NAN, 2.0);
   ck_assert_int_eq(result.num_roots, 0);
+  ck_assert_double_nan(result.root1);
+  ck_assert_double_nan(result.root2);
 }
 END_TEST
 
 START_TEST(test_16) {
   EquationResult result = solve_equation(1.0, -3.0, NAN);
   ck_assert_int_eq(result.num_roots, 0);
+  ck_assert_double_nan(result.root1);
+  ck_assert_double_nan(result.root2);
 }
 END_TEST
 
 START_TEST(test_17) {
   EquationResult result = solve_equation(INFINITY, -3.0, 2.0);
   ck_assert_int_eq(result.num_roots, 0);
+  ck_assert_double_nan(result.root1);
+  ck_assert_double_nan(result.root2);
 }
 END_TEST
 
 START_TEST(test_18) {
   EquationResult result = solve_equation(1.0, INFINITY, 2.0);
   ck_assert_int_eq(result.num_roots, 0);
+  ck_assert_double_nan(result.root1);
+  ck_assert_double_nan(result.root2);
 }
 END_TEST
 
 START_TEST(test_19) {
   EquationResult result = solve_equation(1.0, -3.0, INFINITY);
   ck_assert_int_eq(result.num_roots, 0);
+  ck_assert_double_nan(result.root1);
+  ck_assert_double_nan(result.root2);
 }
 END_TEST
 
 START_TEST(test_20) {
   EquationResult result = solve_equation(-INFINITY, -3.0, 2.0);
   ck_assert_int_eq(result.num_roots, 0);
+  ck_assert_double_nan(result.root1);
+  ck_assert_double_nan(result.root2);
 }
 END_TEST
 
 START_TEST(test_21) {
   EquationResult result = solve_equation(1.0, -INFINITY, 2.0);
   ck_assert_int_eq(result.num_roots, 0);
+  ck_assert_double_nan(result.root1);
+  ck_assert_double_nan(result.root2);
 }
 END_TEST
 
 START_TEST(test_22) {
   EquationResult result = solve_equation(1.0, -3.0, -INFINITY);
   ck_assert_int_eq(result.num_roots, 0);
+  ck_assert_double_nan(result.root1);
+  ck_assert_double_nan(result.root2);
 }
 END_TEST
 
@@ -156,6 +182,22 @@ START_TEST(test_23) {
   ck_assert_int_eq(result.num_roots, 1);
   ck_assert_double_eq_tol(result.root1, 1e6, EPSILON);
   ck_assert_double_eq_tol(result.root2, 1e6, EPSILON);
+}
+END_TEST
+
+START_TEST(test_24) {
+  EquationResult result = solve_equation(1, 1e200, 0);
+  ck_assert_int_eq(result.num_roots, -2);
+  ck_assert_double_nan(result.root1);
+  ck_assert_double_nan(result.root2);
+}
+END_TEST
+
+START_TEST(test_25) {
+  EquationResult result = solve_equation(1e200, 1e250, 1e170);
+  ck_assert_int_eq(result.num_roots, -2);
+  ck_assert_double_nan(result.root1);
+  ck_assert_double_nan(result.root2);
 }
 END_TEST
 
@@ -187,6 +229,8 @@ int main() {
   tcase_add_test(tc, test_21);
   tcase_add_test(tc, test_22);
   tcase_add_test(tc, test_23);
+  tcase_add_test(tc, test_24);
+  tcase_add_test(tc, test_25);
   suite_add_tcase(suite, tc);
 
   srunner_run_all(sr, CK_VERBOSE);

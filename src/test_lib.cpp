@@ -13,11 +13,15 @@ TEST(quadratic_equation, test_1) {
 TEST(quadratic_equation, test_2) {
   EquationResult result = solve_equation(0.0, 0.0, 2.0);
   ASSERT_EQ(result.num_roots, 0);
+  ASSERT_FALSE(result.root1 == result.root1);
+  ASSERT_FALSE(result.root2 == result.root2);
 }
 
 TEST(quadratic_equation, test_3) {
   EquationResult result = solve_equation(0.0, 0.0, -3.0);
   ASSERT_EQ(result.num_roots, 0);
+  ASSERT_FALSE(result.root1 == result.root1);
+  ASSERT_FALSE(result.root2 == result.root2);
 }
 
 TEST(quadratic_equation, test_4) {
@@ -51,6 +55,8 @@ TEST(quadratic_equation, test_7) {
 TEST(quadratic_equation, test_8) {
   EquationResult result = solve_equation(2.0, 0.0, 8.0);
   ASSERT_EQ(result.num_roots, 0);
+  ASSERT_FALSE(result.root1 == result.root1);
+  ASSERT_FALSE(result.root2 == result.root2);
 }
 
 TEST(quadratic_equation, test_9) {
@@ -84,51 +90,71 @@ TEST(quadratic_equation, test_12) {
 TEST(quadratic_equation, test_13) {
   EquationResult result = solve_equation(-2.0, 4.0, -5.0);
   ASSERT_EQ(result.num_roots, 0);
+  ASSERT_FALSE(result.root1 == result.root1);
+  ASSERT_FALSE(result.root2 == result.root2);
 }
 
 TEST(quadratic_equation, test_14) {
   EquationResult result = solve_equation(NAN, -3.0, 2.0);
   ASSERT_EQ(result.num_roots, 0);
+  ASSERT_FALSE(result.root1 == result.root1);
+  ASSERT_FALSE(result.root2 == result.root2);
 }
 
 TEST(quadratic_equation, test_15) {
   EquationResult result = solve_equation(1.0, NAN, 2.0);
   ASSERT_EQ(result.num_roots, 0);
+  ASSERT_FALSE(result.root1 == result.root1);
+  ASSERT_FALSE(result.root2 == result.root2);
 }
 
 TEST(quadratic_equation, test_16) {
   EquationResult result = solve_equation(1.0, -3.0, NAN);
   ASSERT_EQ(result.num_roots, 0);
+  ASSERT_FALSE(result.root1 == result.root1);
+  ASSERT_FALSE(result.root2 == result.root2);
 }
 
 TEST(quadratic_equation, test_17) {
   EquationResult result = solve_equation(INFINITY, -3.0, 2.0);
   ASSERT_EQ(result.num_roots, 0);
+  ASSERT_FALSE(result.root1 == result.root1);
+  ASSERT_FALSE(result.root2 == result.root2);
 }
 
 TEST(quadratic_equation, test_18) {
   EquationResult result = solve_equation(1.0, INFINITY, 2.0);
   ASSERT_EQ(result.num_roots, 0);
+  ASSERT_FALSE(result.root1 == result.root1);
+  ASSERT_FALSE(result.root2 == result.root2);
 }
 
 TEST(quadratic_equation, test_19) {
   EquationResult result = solve_equation(1.0, -3.0, INFINITY);
   ASSERT_EQ(result.num_roots, 0);
+  ASSERT_FALSE(result.root1 == result.root1);
+  ASSERT_FALSE(result.root2 == result.root2);
 }
 
 TEST(quadratic_equation, test_20) {
   EquationResult result = solve_equation(-INFINITY, -3.0, 2.0);
   ASSERT_EQ(result.num_roots, 0);
+  ASSERT_FALSE(result.root1 == result.root1);
+  ASSERT_FALSE(result.root2 == result.root2);
 }
 
 TEST(quadratic_equation, test_21) {
   EquationResult result = solve_equation(1.0, -INFINITY, 2.0);
   ASSERT_EQ(result.num_roots, 0);
+  ASSERT_FALSE(result.root1 == result.root1);
+  ASSERT_FALSE(result.root2 == result.root2);
 }
 
 TEST(quadratic_equation, test_22) {
   EquationResult result = solve_equation(1.0, -3.0, -INFINITY);
   ASSERT_EQ(result.num_roots, 0);
+  ASSERT_FALSE(result.root1 == result.root1);
+  ASSERT_FALSE(result.root2 == result.root2);
 }
 
 TEST(quadratic_equation, test_23) {
@@ -136,6 +162,20 @@ TEST(quadratic_equation, test_23) {
   ASSERT_EQ(result.num_roots, 1);
   ASSERT_NEAR(result.root1, 1e6, EPSILON);
   ASSERT_NEAR(result.root2, 1e6, EPSILON);
+}
+
+TEST(quadratic_equation, test_24) {
+  EquationResult result = solve_equation(1, 1e200, 0);
+  ASSERT_EQ(result.num_roots, -2);
+  ASSERT_FALSE(result.root1 == result.root1);
+  ASSERT_FALSE(result.root2 == result.root2);
+}
+
+TEST(quadratic_equation, test_25) {
+  EquationResult result = solve_equation(1e200, 1e250, 1e170);
+  ASSERT_EQ(result.num_roots, -2);
+  ASSERT_FALSE(result.root1 == result.root1);
+  ASSERT_FALSE(result.root2 == result.root2);
 }
 
 int main(int argc, char *argv[]) {

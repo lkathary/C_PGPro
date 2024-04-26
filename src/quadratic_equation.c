@@ -9,7 +9,7 @@ EquationResult solve_equation(double a, double b, double c) {
       b == -INFINITY || c == -INFINITY || a != a || b != b || c != c) {
     // Degenerate coefficients, no roots
     result.num_roots = 0;
-    result.root1 = result.root2 = 0;
+    result.root1 = result.root2 = NAN;
     return result;
   }
 
@@ -22,7 +22,7 @@ EquationResult solve_equation(double a, double b, double c) {
       } else {
         // Equation c = 0, at the same time c != 0, no roots
         result.num_roots = 0;
-        result.root1 = result.root2 = 0;
+        result.root1 = result.root2 = NAN;
       }
     } else {
       // Linear equation bx + c = 0, one real root
@@ -31,6 +31,15 @@ EquationResult solve_equation(double a, double b, double c) {
     }
   } else {
     double discriminant = b * b - 4 * a * c;
+
+    if (discriminant == INFINITY || discriminant == -INFINITY ||
+        discriminant != discriminant) {
+      // Double value overflow, use BigDecimal
+      result.num_roots = -2;
+      result.root1 = result.root2 = NAN;
+      return result;
+    }
+
     if (discriminant > EPSILON) {
       //  Two distinct real roots
       result.num_roots = 2;
@@ -43,7 +52,7 @@ EquationResult solve_equation(double a, double b, double c) {
     } else {
       //  No roots
       result.num_roots = 0;
-      result.root1 = result.root2 = 0;
+      result.root1 = result.root2 = NAN;
     }
   }
 
